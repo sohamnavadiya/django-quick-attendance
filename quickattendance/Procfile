@@ -1,1 +1,1 @@
-web: sh -c "cd quickattendance && gunicorn quickattendance.wsgi"
+web: gunicorn gettingstarted.wsgi --log-file -
