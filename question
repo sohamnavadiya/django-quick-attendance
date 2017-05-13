@@ -1,0 +1,6 @@
+1. How to change key name in serializer?
+2. How to return foreignkey relation name instead of primary key in response?
+3. How to accept foreignkey related value instead of primary key from response?
+4. How to apply nested serializer?
+5. How to prevent delete operation from view?
+6. How to create our own query set?
