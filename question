@@ -10,3 +10,11 @@
 8. How to add filter via query parameters?
 Visit: http://blog.josephmisiti.com/customzing-apis-with-django-rest-framework
 ---------------------------------------------------------------------------
+
+9. How to apply custom validation
+Visit: http://blog.josephmisiti.com/validation-using-django-rest-framework-and-django-forms
+
+10. Generic list and detail view
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Generic_views#Overview
+
+11. Single API, two model data, How to validate each field using serializer?
