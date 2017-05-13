@@ -4,3 +4,9 @@
 4. How to apply nested serializer?
 5. How to prevent delete operation from view?
 6. How to create our own query set?
+
+---------------------------------------------------------------------------
+7. How to exclude fields via query parameters?
+8. How to add filter via query parameters?
+Visit: http://blog.josephmisiti.com/customzing-apis-with-django-rest-framework
+---------------------------------------------------------------------------
