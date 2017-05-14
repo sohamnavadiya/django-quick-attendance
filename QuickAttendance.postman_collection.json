@@ -79,9 +79,9 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8002/api/sabhasession/active/",
+			"name": "http://localhost:8002/api/session/active/",
 			"request": {
-				"url": "http://localhost:8002/api/sabhasession/active/",
+				"url": "http://localhost:8002/api/session/active/",
 				"method": "GET",
 				"header": [
 					{
@@ -139,7 +139,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8002/api/sabhasession/",
+			"name": "http://localhost:8002/api/session/",
 			"request": {
 				"url": "http://localhost:8002/api/sabhasession/",
 				"method": "POST",
@@ -159,7 +159,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8002/api/sabhasession/",
+			"name": "http://localhost:8002/api/session/",
 			"request": {
 				"url": "http://localhost:8002/api/sabhasession/",
 				"method": "POST",
@@ -179,7 +179,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8002/api/sabhasession/11/",
+			"name": "http://localhost:8002/api/session/11/",
 			"request": {
 				"url": "http://localhost:8002/api/sabhasession/11/",
 				"method": "PUT",
@@ -219,7 +219,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8002/api/sabhasession/11/",
+			"name": "http://localhost:8002/api/session/11/",
 			"request": {
 				"url": "http://localhost:8002/api/sabhasession/11/",
 				"method": "DELETE",
@@ -304,8 +304,8 @@
 		{
 			"name": "http://localhost:8002/api/attendance/",
 			"request": {
-				"url": "http://localhost:8002/api/attendance/",
-				"method": "POST",
+				"url": "http://localhost:8002/api/attendance/3/",
+				"method": "GET",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -315,7 +315,47 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"session_id\": 2,\n\t\"user\":2,\n\t\"status\":\"present\",\n\t\"last_modified_by\":2\n}"
+					"raw": "{\n\t\"attendance\":[\n\t\t{\n\t\t\t\"session_id\": 3,\n\t\t\t\"user\":3,\n\t\t\t\"status\":\"present\",\n\t\t\t\"last_modified_by\":1\n\t\t},\n\t\t{\n\t\t\t\"session_id\": 4,\n\t\t\t\"user\":1,\n\t\t\t\"status\":\"absent\",\n\t\t\t\"last_modified_by\":1\t\n\t\t}\n\t]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/attendance/4/",
+			"request": {
+				"url": "http://localhost:8002/api/attendance/4/",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"session_id\": 4,\n\t\"user\":2,\n\t\"status\":\"present\",\n\t\"last_modified_by\":2\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/attendance/",
+			"request": {
+				"url": "http://localhost:8002/api/attendance/",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"session_id\": 4,\n\t\"user\":2,\n\t\"status\":\"present\",\n\t\"last_modified_by\":2\n}"
 				},
 				"description": ""
 			},
