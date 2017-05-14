@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.db import IntegrityError
+from rest_framework.exceptions import ValidationError
+from rest_framework.response import Response
 from rest_framework.settings import api_settings
+from rest_framework.views import APIView
 from .models import SabhaType, SabhaSession, Attendance
-from .serializers import SabhaTypeSerializer, SabhaSessionSerializer, AttendanceSerializer
-from rest_framework import generics
+from .serializers import SabhaTypeSerializer, SabhaSessionSerializer, AttendanceSerializer, AttendanceInsertSerializer
+from rest_framework import generics, status
 
 
 class SabhaTypeList(generics.ListCreateAPIView):
@@ -38,9 +42,37 @@ class SabhaSessionByStatus(generics.ListAPIView):
         return SabhaSession.objects.session(sabhatype)
 
 
-class AttendanceList(generics.ListCreateAPIView):
-    queryset = Attendance.objects.all()
-    serializer_class = AttendanceSerializer
+class AttendanceList(APIView):
+    serializer_class = AttendanceInsertSerializer
+
+    def post(self, request):
+        attendance_obj = request.data.get('attendance', {})
+
+        for single_user in attendance_obj:
+            print single_user
+            session_id = single_user.get('session_id')
+            user_id = single_user.get('user')
+
+            # The create serializer, validate serializer, save serializer pattern
+            # below is common and you will see it a lot throughout this course and
+            # your own work later on. Get familiar with it.
+            serializer = self.serializer_class(data=single_user)
+            try:
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+            except IntegrityError as error:
+                print "Session not available"
+                print error
+            except ValidationError as error:
+                print error
+                # In this case, if the Person already exists, its name is updated
+                single_obj = Attendance.objects.get(session_id=session_id, user=user_id)
+                serializer = AttendanceInsertSerializer(single_obj, data=single_user)
+                if serializer.is_valid():
+                    print "Update existing attendance model."
+                    serializer.save()
+
+        return Response({"message": "Attendance stored successfully."}, status=status.HTTP_201_CREATED)
 
 
 class AttendanceDetails(generics.RetrieveUpdateDestroyAPIView):

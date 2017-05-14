@@ -40,3 +40,11 @@ class AttendanceSerializer(serializers.ModelSerializer):
         fields = ('status', 'user', 'last_modified_by', 'session_info', 'leave_reason')
         # To add foreign key value info instead just primary key
         # depth = 1
+
+
+class AttendanceInsertSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Attendance
+        fields = ('status', 'user', 'last_modified_by', 'session_id', 'leave_reason')
+        # To add foreign key value info instead just primary key
+        # depth = 1
