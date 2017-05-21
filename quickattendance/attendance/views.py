@@ -46,10 +46,9 @@ class AttendanceList(APIView):
     serializer_class = AttendanceInsertSerializer
 
     def post(self, request):
-        attendance_obj = request.data.get('attendance', {})
+        attendance_obj = request.data.get('attendance', [])
 
         for single_user in attendance_obj:
-            print single_user
             session_id = single_user.get('session_id')
             user_id = single_user.get('user')
 
@@ -61,7 +60,6 @@ class AttendanceList(APIView):
                 serializer.is_valid(raise_exception=True)
                 serializer.save()
             except IntegrityError as error:
-                print "Session not available"
                 print error
             except ValidationError as error:
                 print error

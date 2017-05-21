@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 # Create your models here.
@@ -26,6 +27,11 @@ class Profile(TimestampedModel):
     # In addition to the `bio` field, each user may have a profile image or
     # avatar. Similar to `bio`, this field is not required. It may be blank.
     image = models.URLField(blank=True)
+
+    # Birth date
+    bod = models.DateField(null=True)
+
+    contact_no = ArrayField(models.CharField(max_length=200), null=True)
 
     def __str__(self):
         return self.user.username

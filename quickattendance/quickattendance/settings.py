@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_extensions',
     'rest_framework',
+    'django_tables2',
 
     'authentication',
     'core',
@@ -84,10 +85,21 @@ WSGI_APPLICATION = 'quickattendance.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'quickattendance',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres123',
+        'HOST': '127.0.0.1',
+        'PORT': 5432,
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
@@ -144,3 +156,21 @@ REST_FRAMEWORK = {
 
 
 APPEND_SLASH = False
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+# Extra places for collectstatic to find static files.
+# STATICFILES_DIRS = (
+#     os.path.join(PROJECT_ROOT, '../main_app/static'),
+# )
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+
+# soham
+# soham@gmail.com
+# som123!@#
