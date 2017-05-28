@@ -24,7 +24,7 @@ class SabhaSessionSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = SabhaSession
         fields = ('id', 'user', 'sabhatype', 'date', 'status')
-        depth = 1
+        # depth = 1
 
 
 class AttendanceSerializer(serializers.ModelSerializer):

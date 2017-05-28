@@ -15,4 +15,7 @@ urlpatterns = [
     url(r'^attendance/$', views.AttendanceList.as_view()),
     # url(r'^attendance/(?P<pk>[0-9]+)/$', views.AttendanceDetails.as_view()),
     url(r'^attendance/(?P<session_id>[0-9]+)/$', views.AttendanceDetail.as_view()),
+
+    # User list based on mentor id
+    url(r'^mentor/(?P<mentor_id>[0-9]+)/$', views.MentorUserDetail.as_view()),
 ]

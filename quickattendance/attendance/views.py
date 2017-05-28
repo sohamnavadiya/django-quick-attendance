@@ -2,6 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import IntegrityError
+from profiles.models import Profile
+
+from profiles.serializers import ProfileSerializer
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.settings import api_settings
@@ -63,6 +66,8 @@ class AttendanceList(APIView):
                 print error
             except ValidationError as error:
                 print error
+                print serializer.data.get('session_id')
+                print serializer.data.get('user_id')
                 # In this case, if the Person already exists, its name is updated
                 single_obj = Attendance.objects.get(session_id=session_id, user=user_id)
                 serializer = AttendanceInsertSerializer(single_obj, data=single_user)
@@ -88,3 +93,15 @@ class AttendanceDetail(generics.ListAPIView):
         """
         session_id = self.kwargs['session_id']
         return Attendance.objects.get_session_users(session_id)
+
+
+class MentorUserDetail(generics.ListAPIView):
+    serializer_class = ProfileSerializer
+
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the sabha as determined by the sabhatype portion of the URL.
+        """
+        mentor_id = self.kwargs['mentor_id']
+        return Profile.objects.mentor(mentor_id)

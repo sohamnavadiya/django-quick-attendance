@@ -10,7 +10,14 @@ from django.db import models
 from core.models import TimestampedModel
 
 
+class ProfileManager(models.Manager):
+    def mentor(self, mentor_id):
+        return self.filter(mentor_id=mentor_id)
+
+
 class Profile(TimestampedModel):
+    objects = ProfileManager()
+
     # As mentioned, there is an inherent relationship between the Profile and
     # User models. By creating a one-to-one relationship between the two, we
     # are formalizing this relationship. Every user will have one -- and only
