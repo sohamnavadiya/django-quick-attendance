@@ -1,13 +1,16 @@
+from authentication.models import User
 from rest_framework import serializers, status
 from rest_framework.exceptions import NotFound
-from rest_framework.generics import RetrieveAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import RetrieveAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView, \
+    RetrieveUpdateAPIView
+from rest_framework.mixins import UpdateModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Profile, UserType
 from .renderers import ProfileJSONRenderer
-from .serializers import ProfileSerializer, UserTypeSerializer
+from .serializers import ProfileSerializer, UserTypeSerializer, ProfileSerializer1
 
 
 class ProfileRetrieveAPIView(RetrieveAPIView):
@@ -59,3 +62,24 @@ class UserTypeList(ListCreateAPIView):
 class UserTypeDetail(RetrieveUpdateDestroyAPIView):
     queryset = UserType.objects.all()
     serializer_class = UserTypeSerializer
+
+
+class UserProfile(APIView):
+    def get_object(self, pk):
+        try:
+            return Profile.objects.get(user_id=pk)
+        except Profile.DoesNotExist:
+            return False
+
+    def put(self, request, pk, *args, **kwargs):
+        profile = self.get_object(request.data.get('user', None))
+        serializer = ProfileSerializer1(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user_id=request.data.get('user'), mentor_id=request.data.get('mentor'), updated_by_id=pk)
+            return Response(serializer.data)
+        else:
+            serializer = ProfileSerializer1(instance=profile, data=request.data)
+            if serializer.is_valid():
+                serializer.save(user_id=request.data.get('user'), mentor_id=request.data.get('mentor'))
+                return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

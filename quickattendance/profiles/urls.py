@@ -23,6 +23,10 @@ def simple_list(request):
 urlpatterns = [
     url(r'^profiles/(?P<username>\w+)/?$', ProfileRetrieveAPIView.as_view()),
     url(r'^profiles/(?P<username>\w+)/follow/?$', ProfileFollowAPIView.as_view()),
+
+    # update user profile
+    url(r'^profile/(?P<pk>[0-9]+)/?$', views.UserProfile.as_view()),
+
     # example for show data in tabular form using table lib
     url(r'^usertype1/$', simple_list),
     url(r'^usertype/$', views.UserTypeList.as_view()),

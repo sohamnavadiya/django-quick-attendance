@@ -19,6 +19,16 @@ class Profile(TimestampedModel):
         'authentication.User', on_delete=models.CASCADE
     )
 
+    first_name = models.CharField(max_length=20, blank=False)
+
+    middle_name = models.CharField(max_length=20, blank=False)
+
+    last_name = models.CharField(max_length=20, blank=False)
+
+    mentor = models.ForeignKey('authentication.User', on_delete=models.CASCADE, related_name='mentor')
+
+    updated_by = models.ForeignKey('authentication.User', on_delete=models.CASCADE, related_name='updated_by')
+
     # Each user profile will have a field where they can tell other users
     # something about themselves. This field will be empty when the user
     # creates their account, so we specify `blank=True`.
@@ -32,6 +42,12 @@ class Profile(TimestampedModel):
     bod = models.DateField(null=True)
 
     contact_no = ArrayField(models.CharField(max_length=200), null=True)
+
+    city = models.CharField(max_length=25, null=True)
+
+    state = models.CharField(max_length=25, null=True)
+
+    address = models.TextField(null=True)
 
     def __str__(self):
         return self.user.username

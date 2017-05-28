@@ -10,7 +10,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('username', 'bio', 'image',)
+        fields = ('username', 'first_name', 'last_name', 'middle_name', 'city', 'state', 'contact_no', 'address',
+                  'bod', 'bio', 'image', 'mentor_id',)
         read_only_fields = ('username',)
 
     def get_image(self, obj):
@@ -18,6 +19,12 @@ class ProfileSerializer(serializers.ModelSerializer):
             return obj.image
 
         return 'https://static.productionready.io/images/smiley-cyrus.jpg'
+
+
+class ProfileSerializer1(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = '__all__'
 
 
 class UserTypeSerializer(serializers.ModelSerializer):
