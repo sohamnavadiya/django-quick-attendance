@@ -55,6 +55,7 @@ class ProfileFollowAPIView(APIView):
 
 
 class UserTypeList(ListCreateAPIView):
+    pagination_class = None
     queryset = UserType.objects.all()
     serializer_class = UserTypeSerializer
 
