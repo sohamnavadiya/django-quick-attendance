@@ -94,7 +94,7 @@ from rest_framework import generics
 
 
 class MentorRetrieveAPIView(mixins.ListModelMixin, generics.GenericAPIView):
-    queryset = Profile.objects.all()
+    queryset = Profile.objects.filter(user_type_id__in=[1,2,3])
     serializer_class = MentorSerializer
     pagination_class = None
 
