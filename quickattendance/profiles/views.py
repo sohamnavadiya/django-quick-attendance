@@ -75,6 +75,11 @@ class UserProfile(APIView):
         except Profile.DoesNotExist:
             return False
 
+    def get(self, request, pk, format=None):
+        user_profile = self.get_object(pk)
+        serializer_class = MentorSerializer(user_profile)
+        return Response(serializer_class.data)
+
     def put(self, request, pk, *args, **kwargs):
         profile = self.get_object(request.data.get('user', None))
         serializer = ProfileSerializer1(data=request.data)
