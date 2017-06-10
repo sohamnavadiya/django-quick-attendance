@@ -1,10 +1,10 @@
 from django.conf.urls import url
-from profiles.models import Profile
+from .models import Profile
 
 from django.shortcuts import render
 from . import views
 
-from .views import ProfileRetrieveAPIView, ProfileFollowAPIView
+from .views import ProfileRetrieveAPIView, ProfileFollowAPIView, MentorRetrieveAPIView
 
 import django_tables2 as tables
 
@@ -28,6 +28,8 @@ urlpatterns = [
     url(r'^profile/(?P<pk>[0-9]+)/?$', views.UserProfile.as_view()),
 
     url(r'^mentor/?$', ProfileRetrieveAPIView.as_view()),
+
+    url(r'^mentors/?$', MentorRetrieveAPIView.as_view()),
 
     # example for show data in tabular form using table lib
     url(r'^usertype1/$', simple_list),

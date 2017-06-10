@@ -27,6 +27,12 @@ class ProfileSerializer1(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class MentorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('user_id','first_name','middle_name','last_name')
+
+
 class UserTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserType
