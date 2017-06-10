@@ -4,7 +4,7 @@ from .models import Profile
 from django.shortcuts import render
 from . import views
 
-from .views import ProfileRetrieveAPIView, ProfileFollowAPIView, MentorRetrieveAPIView
+from .views import ProfileRetrieveAPIView, ProfileFollowAPIView, MentorRetrieveAPIView, UserUnderMentorRetrieveAPIView
 
 import django_tables2 as tables
 
@@ -27,7 +27,7 @@ urlpatterns = [
     # update user profile
     url(r'^profile/(?P<pk>[0-9]+)/?$', views.UserProfile.as_view()),
 
-    url(r'^mentor/?$', ProfileRetrieveAPIView.as_view()),
+    url(r'^mentor/(?P<mentor_id>[0-9]+)/?$', UserUnderMentorRetrieveAPIView.as_view()),
 
     url(r'^mentors/?$', MentorRetrieveAPIView.as_view()),
 
