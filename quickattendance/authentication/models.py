@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import jwt
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
+import qrcode
 from django.conf import settings
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
+from django.core.files import File
 from django.db import models
 
 from core.models import TimestampedModel
@@ -37,21 +39,21 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, username, email, password):
-      """
+        """
       Create and return a `User` with superuser powers.
 
       Superuser powers means that this use is an admin that can do anything
       they want.
       """
-      if password is None:
-          raise TypeError('Superusers must have a password.')
+        if password is None:
+            raise TypeError('Superusers must have a password.')
 
-      user = self.create_user(username, email, password)
-      user.is_superuser = True
-      user.is_staff = True
-      user.save()
+        user = self.create_user(username, email, password)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
 
-      return user
+        return user
 
 
 class User(AbstractBaseUser, PermissionsMixin, TimestampedModel):
@@ -79,6 +81,8 @@ class User(AbstractBaseUser, PermissionsMixin, TimestampedModel):
     # falsed.
     is_staff = models.BooleanField(default=False)
 
+    qrcode = models.ImageField(upload_to=settings.QRS3BUCKET, blank=True, null=True)
+
     # More fields required by Django when specifying a custom user model.
 
     # The `USERNAME_FIELD` property tells us which field we will use to log in.
@@ -89,6 +93,44 @@ class User(AbstractBaseUser, PermissionsMixin, TimestampedModel):
     # Tells Django that the UserManager class defined above should manage
     # objects of this type.
     objects = UserManager()
+
+    def save(self, *args, **kwargs):
+        # Generate qrcode before calling super.save
+        super(User, self).save()
+        self.generate_qrcode()
+
+    def update(self, *args, **kwargs):
+        super(User, self).save()
+
+    def generate_qrcode(self):
+        from django.conf import settings
+
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data({'id': self.id, 'username': self.username, 'email': self.email})
+        qr.make(fit=True)
+
+        filename = 'qrcode-%s.png' % self.id
+
+        img = qr.make_image()
+        bucket_path = settings.QRS3BUCKET + '/' + filename
+        path = settings.MEDIA_ROOT + '/' +bucket_path
+        print path
+
+        img.save(path)
+
+        # with open(path, "rb") as reopen:
+        #     django_file = File(reopen)
+        #     self.qrcode.save(filename, django_file, save=False)
+
+        user_obj = User.objects.get(id=self.id)
+        user_obj.qrcode = bucket_path
+        self.qrcode = bucket_path
+        user_obj.update()
 
     def __str__(self):
         """
@@ -110,12 +152,12 @@ class User(AbstractBaseUser, PermissionsMixin, TimestampedModel):
         return self._generate_jwt_token()
 
     def get_full_name(self):
-      """
+        """
       This method is required by Django for things like handling emails.
       Typically, this would be the user's first and last name. Since we do
       not store the user's real name, we return their username instead.
       """
-      return self.username
+        return self.username
 
     def get_short_name(self):
         """
