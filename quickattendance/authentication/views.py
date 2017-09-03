@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from email.mime.image import MIMEImage
+
+from django.core.mail import send_mail
+from django.core.mail.message import EmailMessage
 from django.shortcuts import render
 
 # Create your views here.
+from .models import User
 from rest_framework import status
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -53,6 +58,30 @@ class LoginAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class SendSampleMail(APIView):
+    def get(self, *args, **kwargs):
+        from django.conf import settings
+        user = User.objects.get(id=35)
+        print user.qrcode.url
+
+        subject = "Your sabha unique identity"
+        message = "Keep attached QR code with you"
+        sender = 'som@yomail.com'
+        recipients = ['sohamnavadiya26@gmail.com']
+        mail = EmailMessage(subject, message, sender, recipients)
+        path = settings.BASE_DIR + user.qrcode.url
+        print path
+        fp = open(path, 'rb')
+        msg_img = MIMEImage(fp.read())
+        msg_img.add_header('Content-ID', '<{}>'.format(user.qrcode.url))
+        fp.close()
+        print msg_img
+        mail.attach(msg_img)
+        # send_mail(subject, message, sender, recipients)
+        mail.send()
+        return Response({'msg': 'success...'}, status=status.HTTP_200_OK)
+
+
 class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
@@ -87,4 +116,3 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
-
