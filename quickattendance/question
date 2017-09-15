@@ -1,0 +1,20 @@
+1. How to change key name in serializer?
+2. How to return foreignkey relation name instead of primary key in response?
+3. How to accept foreignkey related value instead of primary key from response?
+4. How to apply nested serializer?
+5. How to prevent delete operation from view?
+6. How to create our own query set?
+
+---------------------------------------------------------------------------
+7. How to exclude fields via query parameters?
+8. How to add filter via query parameters?
+Visit: http://blog.josephmisiti.com/customzing-apis-with-django-rest-framework
+---------------------------------------------------------------------------
+
+9. How to apply custom validation
+Visit: http://blog.josephmisiti.com/validation-using-django-rest-framework-and-django-forms
+
+10. Generic list and detail view
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Generic_views#Overview
+
+11. Single API, two model data, How to validate each field using serializer?

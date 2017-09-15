@@ -1,0 +1,305 @@
+{
+	"variables": [],
+	"info": {
+		"name": "QuickAttendance",
+		"_postman_id": "d05b0e35-96cf-c51c-6453-a640f989391a",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8002/api/sabha/",
+			"request": {
+				"url": "http://localhost:8002/api/sabha/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/sabha/1/",
+			"request": {
+				"url": "http://localhost:8002/api/sabha/1/",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"sabha_type\": \"Mahasabha\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/usertype/1/",
+			"request": {
+				"url": "http://localhost:8002/api/usertype/1/",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user_type\": \"Nirikshak\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/usertype/",
+			"request": {
+				"url": "http://localhost:8002/api/usertype/",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user_type\": \"Nirikshak\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/session/active/",
+			"request": {
+				"url": "http://localhost:8002/api/session/active/",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": 2,\n\t\"sabhatype\":2,\n\t\"status\":\"close\",\n\t\"date\":\"2017-04-01T12:00:00Z\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/attendance/4/",
+			"request": {
+				"url": "http://localhost:8002/api/attendance/4/",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"session_id\": 4,\n\t\"user\":2,\n\t\"status\":\"present\",\n\t\"last_modified_by\":2\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/sabha/",
+			"request": {
+				"url": "http://localhost:8002/api/sabha/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"sabha_type\": \"Parasabha\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/usertype/",
+			"request": {
+				"url": "http://localhost:8002/api/usertype/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user_type\": \"Nirikshak\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/session/",
+			"request": {
+				"url": "http://localhost:8002/api/sabhasession/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": 1,\n\t\"sabhatype\":1,\n\t\"status\":\"active\",\n\t\"date\":\"2017-04-01T12:00:00Z\"\n\t\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var responseJSON = JSON.parse(responseBody);",
+							"",
+							"tests['Response contains \"user\" property'] = responseJSON.hasOwnProperty('user');",
+							"",
+							"var user = responseJSON.user || {};",
+							"",
+							"tests['User has \"id\" property'] = user.hasOwnProperty('id');",
+							"tests['User has \"email\" property'] = user.hasOwnProperty('email');",
+							"tests['User has \"username\" property'] = user.hasOwnProperty('username');",
+							"tests['User has \"bio\" property'] = user.hasOwnProperty('bio');",
+							"tests['User has \"image\" property'] = user.hasOwnProperty('image');",
+							"tests['User has \"token\" property'] = user.hasOwnProperty('token');",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://localhost:8002/api/users",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"user\":{\"email\":\"john@jacob.com\", \"password\":\"johnnyjacob\", \"username\":\"johnjacob\"}}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/attendance/",
+			"request": {
+				"url": "http://localhost:8002/api/attendance/3/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"attendance\":[\n\t\t{\n\t\t\t\"session_id\": 3,\n\t\t\t\"user\":3,\n\t\t\t\"status\":\"present\",\n\t\t\t\"last_modified_by\":1\n\t\t},\n\t\t{\n\t\t\t\"session_id\": 4,\n\t\t\t\"user\":1,\n\t\t\t\"status\":\"absent\",\n\t\t\t\"last_modified_by\":1\t\n\t\t}\n\t]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/session/11/",
+			"request": {
+				"url": "http://localhost:8002/api/sabhasession/11/",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": 2,\n\t\"sabhatype\":2,\n\t\"status\":\"close\",\n\t\"date\":\"2017-04-01T12:00:00Z\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/sabha/1/",
+			"request": {
+				"url": "http://localhost:8002/api/sabha/1/",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"sabha_type\": \"Mahasabha\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8002/api/session/11/",
+			"request": {
+				"url": "http://localhost:8002/api/sabhasession/11/",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": 2,\n\t\"sabhatype\":2,\n\t\"status\":\"close\",\n\t\"date\":\"2017-04-01T12:00:00Z\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
