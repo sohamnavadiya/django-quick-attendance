@@ -18,14 +18,19 @@ class SabhaTypeSerializer(serializers.ModelSerializer):
         fields = ('id', 'sabha_type')
 
 
-class SabhaSessionSerializer(DynamicFieldsModelSerializer):
-    # sabhatype = SabhaTypeSerializer(read_only=True)
+class PostSabhaSessionSerializer(DynamicFieldsModelSerializer):
+    class Meta:
+        model = SabhaSession
+        fields = ('id', 'user', 'sabhatype', 'date', 'status')
+
+
+class GetSabhaSessionSerializer(DynamicFieldsModelSerializer):
+    sabhatype = SabhaTypeSerializer(read_only=True)
 
     class Meta:
         model = SabhaSession
         fields = ('id', 'user', 'sabhatype', 'date', 'status')
-        # depth = 1
-
+        depth = 1
 
 class AttendanceSerializer(serializers.ModelSerializer):
     # session_id = SabhaSessionSerializer(read_only=True)
@@ -33,7 +38,7 @@ class AttendanceSerializer(serializers.ModelSerializer):
     last_modified_by = UserSerializer(read_only=True, fields=('username',))
 
     # To change the key name in response
-    session_info = SabhaSessionSerializer(read_only=True, source='session_id', fields=('id', 'sabhatype'))
+    session_info = GetSabhaSessionSerializer(read_only=True, source='session_id', fields=('id', 'sabhatype'))
 
     class Meta:
         model = Attendance

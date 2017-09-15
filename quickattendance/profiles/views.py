@@ -69,6 +69,8 @@ class UserTypeDetail(RetrieveUpdateDestroyAPIView):
 
 
 class UserProfile(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get_object(self, pk):
         try:
             return Profile.objects.get(user_id=pk)

@@ -10,11 +10,14 @@ from rest_framework.response import Response
 from rest_framework.settings import api_settings
 from rest_framework.views import APIView
 from .models import SabhaType, SabhaSession, Attendance
-from .serializers import SabhaTypeSerializer, SabhaSessionSerializer, AttendanceSerializer, AttendanceInsertSerializer
+from .serializers import SabhaTypeSerializer, AttendanceSerializer, AttendanceInsertSerializer, \
+    GetSabhaSessionSerializer, PostSabhaSessionSerializer
 from rest_framework import generics, status
 
 
 class SabhaTypeList(generics.ListCreateAPIView):
+    # disable pagination
+    pagination_class = None
     queryset = SabhaType.objects.all()
     serializer_class = SabhaTypeSerializer
 
@@ -26,16 +29,22 @@ class SabhaTypeDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class SabhaSessionList(generics.ListCreateAPIView):
     queryset = SabhaSession.objects.all()
-    serializer_class = SabhaSessionSerializer
+    serializer_class = GetSabhaSessionSerializer
+
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = PostSabhaSessionSerializer
+        return self.create(request, *args, **kwargs)
 
 
 class SabhaSessionDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = SabhaSession.objects.all()
-    serializer_class = SabhaSessionSerializer
+    serializer_class = GetSabhaSessionSerializer
 
 
 class SabhaSessionByStatus(generics.ListAPIView):
-    serializer_class = SabhaSessionSerializer
+    serializer_class = GetSabhaSessionSerializer
+    # disable pagination
+    pagination_class = None
 
     def get_queryset(self):
         """
@@ -84,8 +93,9 @@ class AttendanceDetails(generics.RetrieveUpdateDestroyAPIView):
 
 
 class AttendanceDetail(generics.ListAPIView):
+    pagination_class = None
     serializer_class = AttendanceSerializer
-    pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
+    # pagination_class = api_settings.DEFAULT_PAGINATION_CLASS
 
     def get_queryset(self):
         """
@@ -97,7 +107,6 @@ class AttendanceDetail(generics.ListAPIView):
 
 class MentorUserDetail(generics.ListAPIView):
     serializer_class = ProfileSerializer
-
 
     def get_queryset(self):
         """
